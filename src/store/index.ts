@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage'
 import todosReducer from '@/store/slices/todosSlice'
 import authReducer from '@/store/slices/authSlice'
+import { setStore } from '@/api/common'
 
 const authPersistConfig = {
   key: 'auth',
@@ -33,6 +34,8 @@ export const store = configureStore({
       },
     }),
 })
+
+setStore(store);
 
 export const persistor = persistStore(store)
 

@@ -17,7 +17,7 @@ import { selectIsAdmin } from '@/store/slices/authSlice'
 import { TodoSortingControls } from '@/components/TodoSortingControls'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Paginator } from '@/components/ui/paginator'
-import { CreateTodoCard } from '@/components/CreateTodoCard'
+import { CreateTodoForm } from '@/components/CreateTodoForm'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -42,10 +42,10 @@ function App() {
   const totalPages = totalCount ? Math.ceil(totalCount / 3) : 0
 
   return (
-    <div className="container mx-auto pt-6 max-sm:px-4">
+    <div className="container mx-auto py-6 max-sm:px-4">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="md:col-span-2">
-          <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <Card className="border-4">
             <CardHeader>
               <CardTitle className="text-2xl">Список задач</CardTitle>
               <CardDescription>Всего задач: {totalCount || 0}</CardDescription>
@@ -53,7 +53,7 @@ function App() {
               <TodoSortingControls />
             </CardHeader>
 
-            <CardContent>
+            <CardContent className="min-h-[calc(var(--spacing)*56*3+var(--spacing)*4*2)] sm:min-h-[calc(var(--spacing)*44*3+var(--spacing)*4*2)]">
               {loading ? (
                 <div className="space-y-4">
                   <Skeleton className="h-56 shadow-shadow sm:h-44" />
@@ -88,7 +88,7 @@ function App() {
         </div>
 
         <div className="max-md:order-first">
-          <CreateTodoCard />
+          <CreateTodoForm />
         </div>
       </div>
     </div>

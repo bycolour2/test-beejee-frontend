@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { loginErrorText } from '@/store/slices/authSlice'
 
 const loginFormSchema = z.object({
   username: z.string().min(2, {
@@ -38,7 +39,7 @@ export const Route = createFileRoute('/login')({
 })
 
 function LoginPage() {
-  const { isAuthenticated, error, login, resetError } = useAuth()
+  const { isAuthenticated, error, login, me, resetError } = useAuth()
 
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
@@ -51,7 +52,7 @@ function LoginPage() {
 
   const onSubmit = async (values: LoginFormSchema) => {
     resetError()
-    return login(values)
+    return login(values).then(me)
   }
 
   if (isAuthenticated) {
@@ -59,8 +60,8 @@ function LoginPage() {
   }
 
   return (
-    <div className="container mx-auto flex justify-center py-10">
-      <Card className="w-full max-w-md border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+    <div className="container mx-auto flex justify-center py-10 max-sm:px-4">
+      <Card className="w-full max-w-md border-4">
         <CardHeader>
           <CardTitle className="text-2xl">Вход в систему</CardTitle>
           <CardDescription>
@@ -104,7 +105,9 @@ function LoginPage() {
               />
 
               {error ? (
-                <div className="text-sm text-red-500">{error}</div>
+                <div className="text-sm text-red-500">
+                  {loginErrorText[error]}
+                </div>
               ) : (
                 <div className="h-5" />
               )}
@@ -121,7 +124,7 @@ function LoginPage() {
         </CardContent>
 
         <CardFooter className="flex justify-center">
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-center text-sm text-balance">
             Для входа используйте: логин <strong>admin</strong>, пароль{' '}
             <strong>123</strong>
           </p>

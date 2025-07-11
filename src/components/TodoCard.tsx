@@ -36,7 +36,7 @@ export function TodoCard({ todo, isAdmin }: TodoCardProps) {
                 </a>
               </div>
 
-              <div className="flex flex-col gap-1 sm:items-end">
+              <div className="flex items-center gap-1 max-sm:justify-between sm:flex-col sm:items-end">
                 {todo.completed ? (
                   <Badge
                     variant="neutral"
@@ -54,7 +54,7 @@ export function TodoCard({ todo, isAdmin }: TodoCardProps) {
                 )}
 
                 {todo.updatedByAdmin && (
-                  <p className="text-xs text-gray-500">
+                  <p className="overflow-hidden text-right text-xs text-ellipsis text-gray-500">
                     Обновлено администратором
                   </p>
                 )}

@@ -32,15 +32,15 @@ const createTodoFormSchema = z.object({
   email: z.email({ message: 'Введите корректный email.' }),
   description: z
     .string()
-    .min(5, { message: 'Текст задачи должен содержать минимум 5 символов.' })
+    .min(2, { message: 'Текст задачи должен содержать минимум 2 символов.' })
     .max(500, {
-      message: 'Текст задачи должен содержать не более 250 символов.',
+      message: 'Текст задачи должен содержать не более 500 символов.',
     }),
 })
 
 type CreateTodoFormValues = z.infer<typeof createTodoFormSchema>
 
-export const CreateTodoCard = () => {
+export const CreateTodoForm = () => {
   const { createTodo, loading: createLoading, error } = useCreateTodo()
 
   const form = useForm<CreateTodoFormValues>({
@@ -55,15 +55,17 @@ export const CreateTodoCard = () => {
 
   const onSubmit = async (values: CreateTodoFormValues) => {
     try {
-      await createTodo(values).then(() => toast('Задача создана'))
+      await createTodo(values).then(() =>
+        toast.success('Задача создана', { richColors: true }),
+      )
       form.reset()
-    } catch (submitError) {
-      console.error('Ошибка при создании задачи:', submitError)
+    } catch (_err) {
+      toast.error('Ошибка при создания задачи', { richColors: true })
     }
   }
 
   return (
-    <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+    <Card className="border-4">
       <CardHeader>
         <CardTitle className="text-xl">Создать новую задачу</CardTitle>
         <CardDescription>Заполните форму для создания задачи</CardDescription>

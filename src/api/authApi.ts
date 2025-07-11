@@ -11,6 +11,15 @@ export type LoginResponse = {
   accessToken: string
 }
 
+export type MeResponse = {
+  id: number
+  username: string
+}
+
+export type LogoutResponse = {
+  message: string
+}
+
 export type ErrorResponse = {
   message: string
 }
@@ -25,8 +34,15 @@ export const login = async (
   return response.data
 }
 
-export const logout = async (): Promise<{ message: string }> => {
-  const response = await axiosInstance.get<{ message: string }>(
+export const me = async (): Promise<MeResponse> => {
+  const response = await axiosInstance.get<MeResponse>(
+    `${API_BASE_URL}/auth/me`,
+  )
+  return response.data
+}
+
+export const logout = async (): Promise<LogoutResponse> => {
+  const response = await axiosInstance.get<LogoutResponse>(
     `${API_BASE_URL}/auth/logout`,
   )
   return response.data

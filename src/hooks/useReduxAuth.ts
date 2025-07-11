@@ -4,10 +4,12 @@ import {
   clearError,
   loginThunk,
   logoutThunk,
+  meThunk,
   selectError,
   selectIsAdmin,
   selectIsAuthenticated,
   selectLoading,
+  selectUser,
 } from '@/store/slices/authSlice'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 
@@ -17,10 +19,18 @@ export const useAuth = () => {
   const isAdmin = useAppSelector(selectIsAdmin)
   const loading = useAppSelector(selectLoading)
   const error = useAppSelector(selectError)
+  const user = useAppSelector(selectUser)
 
   const login = useCallback(
     (credentials: LoginRequest) => {
       return dispatch(loginThunk(credentials)).unwrap()
+    },
+    [dispatch],
+  )
+
+  const me = useCallback(
+    () => {
+      return dispatch(meThunk()).unwrap()
     },
     [dispatch],
   )
@@ -36,9 +46,11 @@ export const useAuth = () => {
   return {
     isAuthenticated,
     isAdmin,
+    user,
     loading,
     error,
     login,
+    me,
     logout,
     resetError,
   }
